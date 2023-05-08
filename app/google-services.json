@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "790977782422",
+    "project_id": "scrumister",
+    "storage_bucket": "scrumister.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:790977782422:android:9cf1941eecbe5f323fd8b7",
+        "android_client_info": {
+          "package_name": "com.example.scrumister"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "790977782422-d54sn0o1luevpra8hk448d0nou9g6gh3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAtoq_v4Vt6FqLI1RZnCQuxH053GKQgbh0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "790977782422-d54sn0o1luevpra8hk448d0nou9g6gh3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
