@@ -15,20 +15,22 @@
         android:theme="@style/Theme.Scrumister"
         tools:targetApi="31">
         <activity
+            android:name=".EditScrumActivity"
+            android:exported="false" />
+        <activity
+            android:name=".DetailScrumActivity"
+            android:exported="true"></activity>
+        <activity
             android:name=".AddScrumActivity"
-            android:exported="true" >
-
-
-        </activity>
-
+            android:exported="true"></activity>
         <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
     </application>
 

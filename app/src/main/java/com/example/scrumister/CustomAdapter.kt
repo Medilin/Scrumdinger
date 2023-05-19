@@ -1,5 +1,6 @@
 package com.example.scrumister
 
+import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -10,7 +11,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
 
-class CustomAdapter(private val dataset: ArrayList<DailyScrum>):
+class CustomAdapter(private val context: Context, private val dataset: ArrayList<DailyScrum>):
         RecyclerView.Adapter<CustomAdapter.ViewHolder>()
 {
     class ViewHolder(view: View):RecyclerView.ViewHolder(view) {
@@ -47,12 +48,14 @@ class CustomAdapter(private val dataset: ArrayList<DailyScrum>):
         viewHolder.textView2.text = dataset[position].attendees?.count().toString()
         viewHolder.textView3.text = dataset[position].lengthInMinutes.toString()
         dataset[position].theme?.let { viewHolder.cardView.setCardBackgroundColor(it) }
-        /*viewHolder.itemView.setOnClickListener {
-            val intent = Intent(this, ReceivingActivity::class.java).apply {
-                putExtra("scrum", dataset[position])
-            }
+        val item = dataset[position]
+        viewHolder.itemView.setOnClickListener {
+            val intent = Intent(context, DetailScrumActivity::class.java)
+            intent.putExtra("scrum", item)
+            context.startActivity(intent)
+        }
 
-            startActivity(intent);*/
+
 
 
         }
