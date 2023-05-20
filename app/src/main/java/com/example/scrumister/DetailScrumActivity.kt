@@ -8,6 +8,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
+import org.w3c.dom.Text
 
 @Suppress("DEPRECATION")
 class DetailScrumActivity : AppCompatActivity() {
@@ -40,6 +41,16 @@ class DetailScrumActivity : AppCompatActivity() {
         attendee1.text= dailyScrum!!.attendees!![0].toString()
         var attendee2=findViewById<TextView>(R.id.textView5)
         attendee2.text= dailyScrum!!.attendees!![1].toString()
+        var history=findViewById<TextView>(R.id.textView9)
+        if(dailyScrum!!.history!!.size==2)
+        {
+            history.text= dailyScrum!!.history?.get(1)!!.dateTime.toString()
+
+        }else
+        {
+            history.text="No Meetings yet!"
+        }
+
 
     }
     fun editScrum(view: View)
@@ -53,8 +64,23 @@ class DetailScrumActivity : AppCompatActivity() {
     {
         val intent = Intent(this, MainActivity::class.java)
         startActivity(intent)
+    }
+
+    fun startMeeting(view:View)
+    {
+        val intent = Intent(this, StartMeeting::class.java)
+        intent.putExtra("scrum", dailyScrum)
+        startActivity(intent)
 
     }
+    fun meetingDetail(view:View)
+    {
+        val intent = Intent(this, MeetingDetail::class.java)
+        intent.putExtra("scrum", dailyScrum)
+        startActivity(intent)
+
+    }
+
 
 }
 

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.*
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlin.String as String
@@ -18,7 +19,8 @@ class AddScrumActivity : AppCompatActivity() {
         "Red" to Color.RED,
         "Green" to Color.GREEN,
         "White" to Color.WHITE,
-        "Blue" to Color.BLUE
+        "Blue" to Color.BLUE,
+        "Yellow" to Color.YELLOW
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,15 +34,34 @@ class AddScrumActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, colorNames)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         colorSpinner.adapter = adapter
-
+        database = FirebaseDatabase.getInstance().reference.child("scrum-list")
         getInputDetails()
     }
-    fun writeNewScrum(id:Int, title: String, names:ArrayList<String>, duration: Int, theme:Int)
+    fun writeNewScrum(
+        id: Int,
+        title: String,
+        names: ArrayList<String>,
+        duration: Int,
+        theme: Int,
+        list2: ArrayList<Meeting>
+    )
     {
-        val dailyScrum=DailyScrum(id,title,names,duration,theme)
-        println(title)
-        println(names[0])
-        database.child("scrum-list").child(id.toString()).setValue(dailyScrum)
+        val newObjectReference: DatabaseReference = database.push()
+        val dailyScrum=DailyScrum(newObjectReference.key,title,names,duration,theme,list2)
+
+        // Set the value of the new object at the generated reference
+        newObjectReference.setValue(dailyScrum)
+            .addOnSuccessListener {
+                // Object added successfully
+                val newObjectId: String = newObjectReference.key ?: ""
+                // Use newObjectId or perform additional operations
+            }
+            .addOnFailureListener { exception ->
+                // Handle any errors that occurred while adding the object
+            }
+
+
+
 
     }
     fun getInputDetails()
@@ -91,6 +112,11 @@ class AddScrumActivity : AppCompatActivity() {
         val attendee2=editText4.text
         var list1= ArrayList<String>()
 
+        //Change 3
+        var list2= ArrayList<Meeting>()
+        var meeting=Meeting("TestDate","TestSummary")
+        list2.add(meeting)
+
 
         //Finally locate the submit button
         val myButton = findViewById<Button>(R.id.button)
@@ -98,7 +124,8 @@ class AddScrumActivity : AppCompatActivity() {
         myButton.setOnClickListener {
             list1.add(attendee1.toString())
             list1.add(attendee2.toString())
-            writeNewScrum(3,title.toString(),list1,duration,selectedColorValue )
+            //Ignore ID parameter
+            writeNewScrum(3,title.toString(),list1,duration,selectedColorValue,list2 )
             //for logging
             Toast.makeText(this," Scrum Added", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, MainActivity::class.java)

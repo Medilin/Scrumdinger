@@ -1,7 +1,6 @@
 package com.example.scrumister
 
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -29,12 +28,14 @@ class MainActivity : AppCompatActivity() {
 
         myScrums.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val keys=ArrayList<String>();
                 val itemList = ArrayList<DailyScrum>()
                 for (itemSnapshot in dataSnapshot.children) {
                     val item = itemSnapshot.getValue(DailyScrum::class.java)
                     itemList.add(item!!)
+                    keys.add(itemSnapshot.key!!)
                 }
-                populateRecView(itemList)
+                populateRecView(itemList,)
                 println(itemList)
             }
 

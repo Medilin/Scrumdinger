@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
 
-class CustomAdapter(private val context: Context, private val dataset: ArrayList<DailyScrum>):
+class CustomAdapter(
+    private val context: Context,
+    private val dataset: ArrayList<DailyScrum>,
+
+):
         RecyclerView.Adapter<CustomAdapter.ViewHolder>()
 {
     class ViewHolder(view: View):RecyclerView.ViewHolder(view) {
@@ -49,9 +52,15 @@ class CustomAdapter(private val context: Context, private val dataset: ArrayList
         viewHolder.textView3.text = dataset[position].lengthInMinutes.toString()
         dataset[position].theme?.let { viewHolder.cardView.setCardBackgroundColor(it) }
         val item = dataset[position]
+       // val key=keys[position]
+        //Addition
+
+
+
         viewHolder.itemView.setOnClickListener {
             val intent = Intent(context, DetailScrumActivity::class.java)
             intent.putExtra("scrum", item)
+           // intent.putExtra("key",)
             context.startActivity(intent)
         }
 

@@ -2,13 +2,14 @@ package com.example.scrumister
 
 import android.content.Intent
 import android.graphics.Color
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+
 
 @Suppress("DEPRECATION")
 class EditScrumActivity : AppCompatActivity() {
@@ -21,7 +22,8 @@ class EditScrumActivity : AppCompatActivity() {
         "Red" to Color.RED,
         "Green" to Color.GREEN,
         "White" to Color.WHITE,
-        "Blue" to Color.BLUE
+        "Blue" to Color.BLUE,
+        "Yellow" to Color.YELLOW
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,11 +43,33 @@ class EditScrumActivity : AppCompatActivity() {
         setContent()
     }
 
-    fun upadateScrum(id:Int, title: String, names:ArrayList<String>, duration: Int, theme:Int)
+
+    fun updateScrum(
+        id: String,
+        title: String,
+        names: ArrayList<String>,
+        duration: Int,
+        theme: Int,
+        list2: ArrayList<Meeting>
+    )
     {
-        val dailyScrum=DailyScrum(id,title,names,duration,theme)
-        newdailyScrum=dailyScrum
-        database.child("scrum-list").child(id.toString()).setValue(dailyScrum)
+        val scrumRef =database.child("scrum-list").child(id)
+        val updates: MutableMap<String, Any> = HashMap()
+        updates["title"] = title
+        updates["attendees"] = names
+        updates["duration"] = duration
+        updates["theme"] = theme
+        updates["history"]=list2
+        scrumRef.updateChildren(updates)
+            .addOnSuccessListener {
+                // Update successful
+
+            }
+            .addOnFailureListener { e ->
+                // Update failed
+                // Handle any error conditions here
+            }
+
 
     }
 
@@ -127,13 +151,15 @@ class EditScrumActivity : AppCompatActivity() {
             {
                 selectedColorValue=updatedValue
             }
+            var list2= ArrayList<Meeting>()
+            var meeting=Meeting("22May2023","Test")
+            list2.add(meeting)
 
 
-            upadateScrum(dailyScrum!!.id!!,title.toString(),list1,duration,selectedColorValue )
+            updateScrum(dailyScrum!!.id!!,title.toString(),list1,duration,selectedColorValue,list2 )
             //for logging
             Toast.makeText(this," Scrum updated!", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, DetailScrumActivity::class.java)
-            intent.putExtra("scrum", newdailyScrum)
+            val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
 
         }
